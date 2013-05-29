@@ -4,6 +4,8 @@
 autoloadDirectory="~/.vim/autoload"
 vimbundleDirectory="~/.vim/bundle"
 
+echo "Updating Pathogen..."
+
 # Update vim-pathogen
 mkdir -p "${autoloadDirectory}" "${vimbundleDirectory}"
 curl -Sso "${autoloadDirectory}/pathogen.vim" \
