@@ -127,12 +127,73 @@ alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo 
 alias sweep='find ~ -type f \( -name '*.swp' -o -name 'wget.log' -o -name 'foobar*' -o -name '*~' -o -name '.netrwhist'  \) -delete'
 
 # Show/hide hidden files in Finder
-alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+alias appleshow="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias applehide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
 
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# OSX Native Terminal tab and title
+# function taken from
+# https://github.com/revans/bash-it/blob/master/plugins/available/osx.plugin.bash#L3
+function appletab() {
+  osascript 2>/dev/null <<EOF
+    tell application "System Events"
+      tell process "Terminal" to keystroke "t" using command down
+    end
+    tell application "Terminal"
+      activate
+      do script with command "cd \"$PWD\"; $*" in window 1
+    end tell
+EOF
+}
+
+function applesettitle {
+  printf "\033]0;%s\007" "$1"
+}
+
+# Download a file and open it in Preview
+function prevcurl() {
+  about 'download a file and open it in Preview'
+  param '1: url'
+  group 'osx'
+
+  if [ ! $(uname) = "Darwin" ]
+  then
+    echo "This function only works with Mac OS X"
+    return 1
+  fi
+  curl "$*" | open -fa "Preview"
+}
+
+# this one switches your os x dock between 2d and 3d
+# thanks to savier.zwetschge.org
+function dockswitch() {
+    about 'switch dock between 2d and 3d'
+    param '1: "2d" or "3d"'
+    example '$ dock-switch 2d'
+    group 'osx'
+
+    if [ $(uname) = "Darwin" ]; then
+
+        if [ $1 = 3d ] ; then
+            defaults write com.apple.dock no-glass -boolean NO
+            killall Dock
+
+        elif [ $1 = 2d ] ; then
+            defaults write com.apple.dock no-glass -boolean YES
+            killall Dock
+
+        else
+            echo "usage:"
+            echo "dock-switch 2d"
+            echo "dock-switch 3d."
+        fi
+    else
+        echo "Sorry, this only works on Mac OS X"
+    fi
+}
 
 # URL-encode strings
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
@@ -185,6 +246,9 @@ extract () {
     fi
 }
 
+# open github page of current repository
+alias github="chrome \`git remote -v | grep github.com | grep fetch | head -1 | field 2 | sed 's/git:/http:/g'\`"
+
 # What commands I use the most frequently
 alias freq='cut -f1 -d" " ~/.bash_history | sort | uniq -c | sort -nr | head -n 30'
 
@@ -206,5 +270,29 @@ alias fact="elinks -dump randomfunfacts.com | sed -n '/^| /p' | tr -d \|"
 
 # TODO: # Maybe duckduckgo
 #duckduckgo(){ curl -s http://api.duckduckgo.com/\?no_html\=1\&format\=xml\&q\="$*" | hxselect -c "Answer" ;}
+
+
+# A bunch of random aliases from old comps, clean later
+alias startapache="apachectl -f /etc/httpd/conf/httpd.conf"
+alias stopapache="apachectl -k stop"
+
+alias convhtmltabletocsv="BEGIN {s=\"\"; FS=\"n\"} /<td/ { gsub(/<[^>]*>/, \"\"); s=(s \", \" $1);} /<tr|<TR/ { print s; s=\"\" }"
+
+makescriptsinfolderexecutable() {
+  #WARNING - Does not deal with spaces well
+  for script in \ `find ${1%/} -type f -name \*.command -o -name \*.sh`; do
+    echo Making Executable "$script"
+    chmod +x "$script"
+  done
+}
+
+# Launch weinre on port not blocked on company's wireless
+alias wirelessweinre="sudo weinre --httpPort 443 --boundHost $(localip)"
+
+# Tail phpStorm Logfile
+alias tailphpstorm="tail -n 4000 -f ~/Library/Logs/WebIde50/idea.log"
+
+# Open iPhone Simulator
+#
 
 
