@@ -295,4 +295,8 @@ alias tailphpstorm="tail -n 4000 -f ~/Library/Logs/WebIde50/idea.log"
 # Open iPhone Simulator
 #
 
-
+# Fix permissions on user directories
+fixUserPerm() {
+  find . -type d -print0 | xargs -0 chmod 0755 # for directories
+  find . -type f -print0 | xargs -0 chmod 0644 # for files
+}
