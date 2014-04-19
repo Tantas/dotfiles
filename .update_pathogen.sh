@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Vim configuration directories
-autoloadDirectory="~/.vim/autoload"
-vimbundleDirectory="~/.vim/bundle"
+autoloadDirectory="${HOME}/.vim/autoload"
+vimbundleDirectory="${HOME}/.vim/bundle"
 
 echo "Updating Pathogen..."
 
