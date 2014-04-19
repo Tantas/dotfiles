@@ -1,0 +1,9 @@
+#!/bin/bash
+
+npm update
+
+# Retrieves global packages for node
+npm install -g coffee-script
+npm install -g yeoman
+npm install -g weinre
+npm install -g less
