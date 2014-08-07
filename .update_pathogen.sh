@@ -9,7 +9,7 @@ echo "Updating Pathogen..."
 # Update vim-pathogen
 mkdir -p "${autoloadDirectory}" "${vimbundleDirectory}"
 curl -Sso "${autoloadDirectory}/pathogen.vim" \
-    "https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
+	"https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim"
 
 # Update the bundles
 vimbundles=(
