@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Verify dependencies exist.
+command -v curl >/dev/null 2>&1 || \
+    { echo >&2 "Missing dependency curl. Aborting."; exit 1; }
+
 # Vim configuration directories
 autoloadDirectory="${HOME}/.vim/autoload"
 vimbundleDirectory="${HOME}/.vim/bundle"
