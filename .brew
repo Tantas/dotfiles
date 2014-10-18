@@ -27,6 +27,7 @@ brew tap homebrew/dupes
 brew install grep
 brew tap josegonzalez/homebrew-php
 brew install php56
+brew install composer
 
 # Install other useful binaries
 brew install ack
@@ -50,7 +51,7 @@ brew install midnight-commander
 # Some server software
 brew install mysql
 brew install lighttpd
-brew install httpd
+brew install homebrew/apache/httpd24
 
 # Remove outdated versions from the cellar
 brew cleanup
